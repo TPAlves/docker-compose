@@ -1,0 +1,27 @@
+version: '2.26.1'
+services:
+  redis:
+    image: redis:7.2.4
+    container_name: redis-flask
+    networks:
+      - compose-bridge
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0.36
+    container_name: mysql-flask
+    networks:
+      - compose-bridge
+  python:
+    image: tpalves/python-flask:1.0
+    container_name: python-flask
+    networks:
+      - compose-bridge
+    ports:
+      - 5000:5000
+    depends_on:
+      - redis
+      - mysql
+networks:
+  compose-bridge:
+    driver: bridge
